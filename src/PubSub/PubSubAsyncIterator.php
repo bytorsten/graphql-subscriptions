@@ -64,7 +64,7 @@ class PubSubAsyncIterator implements ReturnableAsyncIteratorInterface
             }
         };
 
-        $this->pullValue = function() {
+        $this->pullValue = function () {
             return new Promise\Promise(function (callable $resolve) {
                 if (count($this->pushQueue) !== 0) {
                     $resolve(array_shift($this->pushQueue));
@@ -85,7 +85,7 @@ class PubSubAsyncIterator implements ReturnableAsyncIteratorInterface
         if ($this->listening === true) {
             $this->listening = false;
             $this->removeEventListeners();
-            foreach($this->pullQueue as $resolver) {
+            foreach ($this->pullQueue as $resolver) {
                 $resolver(null);
             }
             $this->pullQueue = [];

@@ -13,7 +13,8 @@ class SingleFieldSubscriptions extends AbstractValidationRule
      * @param null|string $name
      * @return string
      */
-    protected function singleFieldOnlyMessage(?string $name): string {
+    protected function singleFieldOnlyMessage(?string $name): string
+    {
         return ($name !== null ? 'Subscription "' . $name . '" ' : 'Anonymous Subscription ') . 'must select only one top level field.';
     }
 
@@ -30,9 +31,10 @@ class SingleFieldSubscriptions extends AbstractValidationRule
             NodeKind::OPERATION_DEFINITION => function (OperationDefinitionNode $node) use ($context) {
                 if ($node->operation === 'subscription') {
                     if (count($node->selectionSet->selections) !== 1) {
-                        $context->reportError(new Error(
-                            $this->singleFieldOnlyMessage($node->name ? $node->name->value : null),
-                            array_slice($node->selectionSet->selections, 1)
+                        $context->reportError(
+                            new Error(
+                                $this->singleFieldOnlyMessage($node->name ? $node->name->value : null),
+                                array_slice($node->selectionSet->selections, 1)
                             )
                         );
                     }

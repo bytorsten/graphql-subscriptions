@@ -85,12 +85,12 @@ class AsyncIterator implements AsyncIteratorInterface
                             return $resolve();
                         }
 
-                        Promise\resolve($callback($value))
+                        return Promise\resolve($callback($value))
                             ->done(function () use ($asyncIterator, $next) {
                                 $asyncIterator->next();
                                 $next();
                             }, $reject);
-                }, $reject);
+                    }, $reject);
             };
 
             $next();

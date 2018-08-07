@@ -89,7 +89,7 @@ class Utils
      * @param array $visitedFragmentNames
      * @return array
      */
-    public static function collectFields(ExecutionContext $exeContext, ObjectType $type, SelectionSetNode $selectionSet, array $fields = [], array $visitedFragmentNames =[]): array
+    public static function collectFields(ExecutionContext $exeContext, ObjectType $type, SelectionSetNode $selectionSet, array $fields = [], array $visitedFragmentNames = []): array
     {
         $instance = static::construct($exeContext);
         $collectFields = new \ReflectionMethod(Executor::class, 'collectFields');

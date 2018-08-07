@@ -126,7 +126,7 @@ class SubscriptionComponent implements MessageComponentInterface, WsServerInterf
 
         $opId = $parsedMessage['id'] ?? null;
 
-        switch($parsedMessage['type']) {
+        switch ($parsedMessage['type']) {
             case MessageTypes::GQL_CONNECTION_INIT:
                 $connectionContext->setInitPromise(new Promise\Promise(function (callable $resolve, callable $reject) use ($parsedMessage, $connectionContext) {
                     try {
@@ -158,12 +158,12 @@ class SubscriptionComponent implements MessageComponentInterface, WsServerInterf
                 });
 
                 $connectionContext->getInitPromise()->otherwise(function (\Throwable $error) use ($connectionContext, $opId) {
-                   $this->sendError($connectionContext, $opId, ['message' => $error->getMessage()], MessageTypes::GQL_CONNECTION_ERROR);
+                    $this->sendError($connectionContext, $opId, ['message' => $error->getMessage()], MessageTypes::GQL_CONNECTION_ERROR);
 
-                   $this->loop->addTimer(10 / 1000, function () use ($connectionContext) {
-                       $connectionContext->getSocket()->close(1011);
-                       $this->contextCollection->detach($connectionContext);
-                   });
+                    $this->loop->addTimer(10 / 1000, function () use ($connectionContext) {
+                        $connectionContext->getSocket()->close(1011);
+                        $this->contextCollection->detach($connectionContext);
+                    });
                 });
 
                 break;
@@ -197,7 +197,6 @@ class SubscriptionComponent implements MessageComponentInterface, WsServerInterf
                             if (count($validationErrors) > 0) {
                                 $executionPromise = Promise\resolve(['errors' => $validationErrors]);
                             } else {
-
                                 $executor = [$this->subscriptionOptions, 'execute'];
                                 if (AST::getOperation($document, $params->getOperationName()) === 'subscription') {
                                     $executor = [$this->subscriptionOptions, 'subscribe'];
@@ -332,8 +331,7 @@ class SubscriptionComponent implements MessageComponentInterface, WsServerInterf
             });
         }
 
-        foreach ($connectionContext->getOperations() as $opId => $_)
-        {
+        foreach ($connectionContext->getOperations() as $opId => $_) {
             $this->unsubscribe($connectionContext, $opId);
         }
 
@@ -357,7 +355,8 @@ class SubscriptionComponent implements MessageComponentInterface, WsServerInterf
         ];
 
         $connectionContext->getSocket()->send(json_encode($message));
-}
+    }
+
     /**
      * @param ConnectionContext $connectionContext
      * @param null|string $opId
@@ -372,7 +371,7 @@ class SubscriptionComponent implements MessageComponentInterface, WsServerInterf
             throw new Exception('overrideDefaultErrorType should be one of the allowed error messages GQL_CONNECTION_ERROR or GQL_ERROR');
         }
 
-        $this->sendMessage($connectionContext,  $opId, $sanitizedOverrideDefaultErrorType, $errorPayload);
+        $this->sendMessage($connectionContext, $opId, $sanitizedOverrideDefaultErrorType, $errorPayload);
     }
 
     /**

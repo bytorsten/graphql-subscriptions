@@ -80,7 +80,7 @@ class SubscriptionOptions
      */
     public function onOperation(array $message, ExecutionParameters $parameters, ConnectionInterface $socket)
     {
-       return $parameters;
+        return $parameters;
     }
 
     /**

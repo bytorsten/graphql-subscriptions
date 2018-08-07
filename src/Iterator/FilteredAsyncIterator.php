@@ -43,13 +43,13 @@ class FilteredAsyncIterator implements AsyncIteratorInterface, ReturnableAsyncIt
                 ]);
             })
             ->then(function (array $payloadAndFilterResult) {
-               [$payload, $filterResult] = $payloadAndFilterResult;
+                [$payload, $filterResult] = $payloadAndFilterResult;
 
-               if ($filterResult === true) {
-                   return $payload;
-               }
+                if ($filterResult === true) {
+                    return $payload;
+                }
 
-               return $this->getNextPromise();
+                return $this->getNextPromise();
             });
     }
 

@@ -65,13 +65,12 @@ class Subscription
         };
 
         return $sourcePromise->then(function ($resultOrStream) use ($mapSourceToResponse) {
-           if ($resultOrStream instanceof AsyncIteratorInterface) {
-               return new MappedAsyncIterator($resultOrStream, $mapSourceToResponse);
-           }
+            if ($resultOrStream instanceof AsyncIteratorInterface) {
+                return new MappedAsyncIterator($resultOrStream, $mapSourceToResponse);
+            }
 
-           return $resultOrStream;
+            return $resultOrStream;
         });
-
     }
 
     protected static function createSourceEventStream(
@@ -85,7 +84,6 @@ class Subscription
     ): Promise\PromiseInterface {
 
         try {
-
             $exeContext = Utils::buildExecutionContext($schema, $document, $rootValue, $contextValue, $variableValues, $operationName, $fieldResolver);
 
             if (is_array($exeContext)) {
@@ -120,17 +118,16 @@ class Subscription
 
             return Promise\resolve($result)
                 ->then(function ($eventStream) use ($fieldNodes, $path) {
-                   if ($eventStream instanceof Error) {
-                       throw Error::createLocatedError($eventStream, $fieldNodes, $path);
-                   }
+                    if ($eventStream instanceof Error) {
+                        throw Error::createLocatedError($eventStream, $fieldNodes, $path);
+                    }
 
-                   if ($eventStream instanceof AsyncIteratorInterface) {
-                       return $eventStream;
-                   }
+                    if ($eventStream instanceof AsyncIteratorInterface) {
+                        return $eventStream;
+                    }
 
-                   throw new Error('Subscription field must return an async iterable, received: ' . gettype($eventStream));
+                    throw new Error('Subscription field must return an async iterable, received: ' . gettype($eventStream));
                 });
-
         } catch (\Throwable $error) {
             return Promise\reject($error);
         }

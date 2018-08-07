@@ -67,7 +67,7 @@ class SyncPubSub implements PubSubInterface
     {
         if (isset($this->subscriptions[$subId])) {
             [$triggerName, $onMessage] = $this->subscriptions[$subId];
-            unset ($this->subscriptions[$subId]);
+            unset($this->subscriptions[$subId]);
             $this->eventEmitter->removeListener($triggerName, $onMessage);
         }
     }
