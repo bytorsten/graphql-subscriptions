@@ -22,18 +22,19 @@ class SubscriptionServer
     /**
      * @var string
      */
-    protected $address;
+    protected $uri;
 
     /**
      * @param LoopInterface $loop
      * @param int $port
-     * @param string $host
+     * @param string $httpPost
+     * @param string $address
      */
-    public function __construct(LoopInterface $loop, int $port = 4000, string $host = 'localhost')
+    public function __construct(LoopInterface $loop, int $port = 4000, string $httpPost = 'localhost', string $address = '0.0.0.0')
     {
         $this->loop = $loop;
-        $this->app = new App($host,$port, '0.0.0.0', $this->loop);
-        $this->address = sprintf('ws://%s:%s', $host, $port);
+        $this->app = new App($httpPost, $port, $address, $this->loop);
+        $this->uri = sprintf('ws://%s:%s', $httpPost, $port);
     }
 
     /**
@@ -53,8 +54,8 @@ class SubscriptionServer
     /**
      * @return string
      */
-    public function getAddress(): string
+    public function getUri(): string
     {
-        return $this->address;
+        return $this->uri;
     }
 }
